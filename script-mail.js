@@ -23,27 +23,29 @@
 
 // Añadir un escuchador de evento para cuando cambie el estado de la solicitud
     xhr.onreadystatechange = function() {
-      // Comprobar si la solicitud ha sido completada y exitosa
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        // Mostrar un mensaje de éxito en el elemento con la clase "mensaje-exito"
-        const mensajeExito = document.querySelector('.mensaje-exito');
-        mensajeExito.innerHTML = 'Mensaje enviado correctamente';
-
-        // Ocultar el mensaje de éxito después de 5 segundos
-        setTimeout(function() {
-          mensajeExito.innerHTML = '';
-        }, 5000);
-      } else {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      const response = JSON.parse(xhr.responseText);
+      if (response.error) {
         // Mostrar un mensaje de error en el elemento con la clase "mensaje-error"
         const mensajeError = document.querySelector('.mensaje-error');
-        mensajeError.innerHTML = 'Error al enviar el mensaje';
+        mensajeError.innerHTML = response.error;
 
         // Ocultar el mensaje de error después de 5 segundos
         setTimeout(function() {
           mensajeError.innerHTML = '';
         }, 5000);
+      } else {
+        // Mostrar un mensaje de éxito en el elemento con la clase "mensaje-exito"
+        const mensajeExito = document.querySelector('.mensaje-exito');
+        mensajeExito.innerHTML = response.message;
+
+        // Ocultar el mensaje de éxito después de 5 segundos
+        setTimeout(function() {
+          mensajeExito.innerHTML = '';
+        }, 5000);
       }
-    };
+    }
+  };
 
     // Enviar la solicitud con los datos del formulario
     xhr.send(`nombre=${nombre}&email=${email}&mensaje=${mensaje}`);

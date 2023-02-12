@@ -24,9 +24,9 @@
 
   // Enviar el mensaje y comprobar si se ha enviado correctamente
   if (!$mail->send()) {
-    echo 'El mensaje no se ha podido enviar.';
-    echo 'Error: ' . $mail->ErrorInfo;
+    $response = array('error' => 'EL MENSAJE NO SE HA PODIDO ENVIAR. Error: ' . $mail->ErrorInfo);
+    echo json_encode($response);
   } else {
-    echo 'El mensaje se ha enviado correctamente.';
+    $response = array('message' => 'EL MENSAJE SE HA ENVIADO CORRECTAMENTE.');
+    echo json_encode($response);
   }
-?>
